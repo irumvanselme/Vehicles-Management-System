@@ -4,15 +4,15 @@ import { getToken } from "../../utils/token";
 import { get } from "../../utils/axios";
 import { Link } from "react-router-dom";
 
-export function Dashboard() {
-	const [vehicles, setVehicles] = useState([1, 2, 3, 4, 5]);
+export function CarOwners() {
+	const [owners, setOwners] = useState([1, 2, 3, 4, 5]);
 	const [activePage, setActivePage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
 
 	useEffect(() => {
 		(async function () {
 			let { data } = await get(
-				"/api/vehicles?limit=5&page=" + activePage,
+				"/api/car-owners?limit=5&page=" + activePage,
 				{
 					headers: {
 						Authorization: `Bearer ${getToken()}`,
@@ -21,12 +21,12 @@ export function Dashboard() {
 			);
 
 			setTotalPages(data.totalPages);
-			setVehicles(data.content);
+			setOwners(data.content);
 		})();
 	}, []);
 
 	const reload = (page) => async () => {
-		let { data } = await get("/api/vehicles?limit=5&page=" + page, {
+		let { data } = await get("/api/car-owners?limit=5&page=" + page, {
 			headers: {
 				Authorization: `Bearer ${getToken()}`,
 			},
@@ -34,60 +34,42 @@ export function Dashboard() {
 
 		setActivePage(page);
 		setTotalPages(data.totalPages);
-		setVehicles(data.content);
+		setOwners(data.content);
 	};
-
-	const assign = () => {};
 
 	return (
 		<>
 			<div className="container">
 				<Report />
 				<div
-					className="bg-white px-5 py-4"
+					className="bg-white p-5"
 					style={{
-						marginTop: 30,
+						marginTop: 50,
 						borderRadius: 10,
 					}}
 				>
-					<h2 className="t-primary">Vehicles</h2>
+					<h2 className="t-primary">Car Owners</h2>
 					<div className="mt-4">
-						<div className="b-primary text-white px-4 py-3 row row-cols-6 justify-content-between fw-bold shadow-sm">
-							<div>Plate number </div>
-							<div>Company / Year</div>
-							<div>Price</div>
-							<div>Chassis Number</div>
-							<div>Model name</div>
-							<div>Owner</div>
+						<div className="b-primary text-white px-4 py-3 row row-cols-4 justify-content-between fw-bold shadow-sm">
+							<div>Full name </div>
+							<div>National Id</div>
+							<div>Phone number</div>
+							<div>address</div>
 						</div>
 
-						{vehicles.map((vehicle, key) => {
+						{owners.map((owner, key) => {
 							return (
 								<div
 									key={key}
-									className="text-black px-4 py-3 row row-cols-6 justify-content-between mt-3"
+									className="text-black px-4 py-3 row row-cols-4 justify-content-between mt-3"
 									style={{
 										backgroundColor: "#FAFAFA",
 									}}
 								>
-									<div>{vehicle.plateNumber}</div>
-									<div>
-										{vehicle.manufuctureCompany} /{" "}
-										{vehicle.manufucturedYear}
-									</div>
-									<div>{vehicle.price} FRW</div>
-									<div>{vehicle.chassisNumber}</div>
-									<div>{vehicle.modelName}</div>
-									<div>
-										<Link to={"/assign/" + vehicle.id}>
-											<button
-												className="btn btn-info text-white"
-												onClick={assign}
-											>
-												Assign
-											</button>
-										</Link>
-									</div>
+									<div>{owner.fullNames}</div>
+									<div>{owner.nationalId}</div>
+									<div>{owner.phoneNumber} FRW</div>
+									<div>{owner.address}</div>
 								</div>
 							);
 						})}

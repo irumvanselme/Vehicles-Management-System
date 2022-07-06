@@ -7,15 +7,6 @@ import { get } from "../../utils/axios";
 import { getToken } from "../../utils/token";
 
 export default function Home() {
-	const [posts, setPosts] = useState([]);
-
-	useEffect(() => {
-		(async function () {
-			let { data } = await get("http://localhost:8000/api/vehicles");
-			setPosts(data);
-		})();
-	}, []);
-
 	return (
 		<>
 			<div className="container mt-5">

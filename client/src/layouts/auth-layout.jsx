@@ -20,8 +20,6 @@ export default function AuthLayout({ children }) {
 
 		setUser(jwtDecode(token).user);
 
-		console.log(user);
-
 		setIsLoggedIn(true);
 	}, []);
 
