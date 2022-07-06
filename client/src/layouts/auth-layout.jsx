@@ -42,7 +42,7 @@ export default function AuthLayout({ children }) {
 					<div className="d-flex align-items-center">
 						{isLoggedIn ? (
 							<>
-								<div className="pr-5 bg-red-500">
+								<div className="pr-5 bg-red-500 d-none d-md-block">
 									<Link to={"/new-vehicle"}>
 										<button className="btn btn-primary">
 											New vehicle
@@ -57,7 +57,7 @@ export default function AuthLayout({ children }) {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										{user.fullNames}
+										{user.fullNames.split(" ")[0]}
 									</div>
 									<ul
 										className="dropdown-menu bg-white"

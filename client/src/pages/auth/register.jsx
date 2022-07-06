@@ -43,7 +43,7 @@ export default function Register() {
 
 			NotificationManager.success("Registered Successfully");
 
-			window.location.href = "/profile";
+			window.location.href = "/dashboard";
 		} catch (e) {
 			if (e.response.status === 400) {
 				NotificationManager.error(e.response.data.message);

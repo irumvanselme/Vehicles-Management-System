@@ -5,14 +5,14 @@ import { get } from "../../utils/axios";
 import { Link } from "react-router-dom";
 
 export function CarOwners() {
-	const [owners, setOwners] = useState([1, 2, 3, 4, 5]);
+	const [owners, setOwners] = useState([]);
 	const [activePage, setActivePage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
 
 	useEffect(() => {
 		(async function () {
 			let { data } = await get(
-				"/api/car-owners?limit=5&page=" + activePage,
+				"/api/vehicle-owners?limit=5&page=" + activePage,
 				{
 					headers: {
 						Authorization: `Bearer ${getToken()}`,
@@ -26,7 +26,7 @@ export function CarOwners() {
 	}, []);
 
 	const reload = (page) => async () => {
-		let { data } = await get("/api/car-owners?limit=5&page=" + page, {
+		let { data } = await get("/api/vehicle-owners?limit=5&page=" + page, {
 			headers: {
 				Authorization: `Bearer ${getToken()}`,
 			},
@@ -42,14 +42,19 @@ export function CarOwners() {
 			<div className="container">
 				<Report />
 				<div
-					className="bg-white p-5"
+					className="bg-white card p-5 overflow-auto"
 					style={{
 						marginTop: 50,
 						borderRadius: 10,
 					}}
 				>
 					<h2 className="t-primary">Car Owners</h2>
-					<div className="mt-4">
+					<div
+						className="mt-4"
+						style={{
+							minWidth: 700,
+						}}
+					>
 						<div className="b-primary text-white px-4 py-3 row row-cols-4 justify-content-between fw-bold shadow-sm">
 							<div>Full name </div>
 							<div>National Id</div>

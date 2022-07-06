@@ -5,7 +5,7 @@ import { get } from "../../utils/axios";
 import { Link } from "react-router-dom";
 
 export function Dashboard() {
-	const [vehicles, setVehicles] = useState([1, 2, 3, 4, 5]);
+	const [vehicles, setVehicles] = useState([]);
 	const [activePage, setActivePage] = useState(0);
 	const [totalPages, setTotalPages] = useState(0);
 
@@ -44,14 +44,19 @@ export function Dashboard() {
 			<div className="container">
 				<Report />
 				<div
-					className="bg-white px-5 py-4"
+					className="bg-white card px-5 py-4 overflow-auto"
 					style={{
 						marginTop: 30,
 						borderRadius: 10,
 					}}
 				>
 					<h2 className="t-primary">Vehicles</h2>
-					<div className="mt-4">
+					<div
+						className="mt-4"
+						style={{
+							minWidth: 700,
+						}}
+					>
 						<div className="b-primary text-white px-4 py-3 row row-cols-6 justify-content-between fw-bold shadow-sm">
 							<div>Plate number </div>
 							<div>Company / Year</div>
@@ -79,14 +84,47 @@ export function Dashboard() {
 									<div>{vehicle.chassisNumber}</div>
 									<div>{vehicle.modelName}</div>
 									<div>
-										<Link to={"/assign/" + vehicle.id}>
-											<button
-												className="btn btn-info text-white"
-												onClick={assign}
-											>
-												Assign
-											</button>
-										</Link>
+										{vehicle.owner == null ? (
+											<>
+												<div className="text-danger">
+													N/A
+												</div>
+
+												<div>
+													<Link
+														style={{
+															fontSize: 13,
+														}}
+														to={
+															"/assign/" +
+															vehicle.id
+														}
+													>
+														Assign
+													</Link>
+												</div>
+											</>
+										) : (
+											<>
+												<div>
+													{vehicle.owner.fullNames}
+												</div>
+
+												<div>
+													<Link
+														style={{
+															fontSize: 13,
+														}}
+														to={
+															"/assign/" +
+															vehicle.id
+														}
+													>
+														Change
+													</Link>
+												</div>
+											</>
+										)}
 									</div>
 								</div>
 							);

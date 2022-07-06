@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @Entity
 @Table(name = "owners")
-public class CarOwner {
+public class VehicleOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

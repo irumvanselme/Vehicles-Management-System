@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import rw.ac.rca.nat2022.server.models.VehicleOwner;
 
 @Repository
-public interface ICarOwnerRepository extends JpaRepository<VehicleOwner, Long> {
+public interface IVehicleOwnerRepository extends JpaRepository<VehicleOwner, Long> {
 }

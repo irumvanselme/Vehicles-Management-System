@@ -1,17 +1,20 @@
 package rw.ac.rca.nat2022.server.services.impl;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import rw.ac.rca.nat2022.server.models.CarOwner;
+import org.springframework.transaction.annotation.Transactional;
+import rw.ac.rca.nat2022.server.models.VehicleOwner;
 import rw.ac.rca.nat2022.server.models.Vehicle;
+import rw.ac.rca.nat2022.server.models.VehicleOwnerShip;
 import rw.ac.rca.nat2022.server.repositories.IVehicleRepository;
-import rw.ac.rca.nat2022.server.services.ICarOwnerService;
+import rw.ac.rca.nat2022.server.services.IVehicleOwnerService;
+import rw.ac.rca.nat2022.server.services.IVehicleOwnershipService;
 import rw.ac.rca.nat2022.server.services.IVehicleService;
 import rw.ac.rca.nat2022.server.utils.dtos.NewVehicleDTO;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
@@ -19,12 +22,14 @@ public class VehicleServiceImpl implements IVehicleService {
 
     private final IVehicleRepository vehicleRepository;
 
-    private final ICarOwnerService carOwnerService;
+    private final IVehicleOwnerService vehicleOwnerService;
+    private final IVehicleOwnershipService vehicleOwnershipService;
 
     @Autowired
-    public VehicleServiceImpl(IVehicleRepository vehicleRepository, ICarOwnerService carOwnerService) {
+    public VehicleServiceImpl(IVehicleRepository vehicleRepository, IVehicleOwnerService vehicleOwnerService, IVehicleOwnershipService vehicleOwnershipService) {
         this.vehicleRepository = vehicleRepository;
-        this.carOwnerService = carOwnerService;
+        this.vehicleOwnerService = vehicleOwnerService;
+        this.vehicleOwnershipService = vehicleOwnershipService;
     }
 
     @Override
@@ -35,14 +40,14 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public Vehicle create(NewVehicleDTO dto) {
         if (!dto.getIsNew() && (dto.getPlateNumber() == null || dto.getPlateNumber().isEmpty())) {
-            throw new RuntimeException("Plate number is required since the car is not new");
+            throw new RuntimeException("Plate number is required since the vehicle is not new");
         }
 
         if (!(dto.getPlateNumber() == null || dto.getPlateNumber().isEmpty())) {
             if (vehicleRepository.existsByPlateNumber(dto.getPlateNumber())) {
-                throw new RuntimeException("Car with this plate number is already registered");
+                throw new RuntimeException("Vehicle with this plate number is already registered");
             }
-        }else{
+        } else {
             dto.setPlateNumber(generatePlateNumber());
         }
 
@@ -61,13 +66,28 @@ public class VehicleServiceImpl implements IVehicleService {
     }
 
     @Override
+    @Transactional
     public Vehicle link(Long id, Long ownerId) {
         Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new RuntimeException("Vehicle with this id not found"));
-        CarOwner carOwner = carOwnerService.findById(ownerId);
+        VehicleOwner vehicleOwner = vehicleOwnerService.findById(ownerId);
 
-        vehicle.setOwner(carOwner);
+        vehicleOwnershipService.endOwnerShip(vehicle);
+
+        VehicleOwnerShip newOwnerShip = new VehicleOwnerShip();
+        newOwnerShip.setOwner(vehicleOwner);
+        newOwnerShip.setVehicle(vehicle);
+        newOwnerShip.setStart(LocalDateTime.now());
+
+        vehicleOwnershipService.save(newOwnerShip);
+
+        vehicle.setOwner(vehicleOwner);
 
         return vehicleRepository.save(vehicle);
+    }
+
+    @Override
+    public Vehicle findById(Long id) {
+        return vehicleRepository.findById(id).orElseThrow(() -> new RuntimeException("Vehicle with this id not found"));
     }
 
     private String generatePlateNumber() {

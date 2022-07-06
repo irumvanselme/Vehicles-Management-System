@@ -4,23 +4,25 @@ import { useEffect } from "react";
 import { getToken } from "../utils/token";
 import { Link } from "react-router-dom";
 
-function Card({ bg, title, count, link1, link2 }) {
+function Vehicled({ bg, title, count, link1, link2 }) {
 	return (
-		<div className={bg + " mx-4 px-4 py-3 rounded shadow-lg"}>
-			<h4>
-				{title} [{count}]
-			</h4>
-			<div className="mt-4">
-				<Link to={link1}>
-					<button className="btn btn-sm btn-primary rounded px-3">
-						View All
-					</button>
-				</Link>
-				<Link to={link2}>
-					<button className="btn btn-sm btn-primary rounded px-4 mx-4">
-						New
-					</button>
-				</Link>
+		<div className="px-2">
+			<div className={bg + " px-4 py-3 rounded shadow-lg mt-4 mt-lg-0"}>
+				<h4>
+					{title} [{count}]
+				</h4>
+				<div className="mt-4">
+					<Link to={link1}>
+						<button className="btn btn-sm btn-primary rounded px-3">
+							View All
+						</button>
+					</Link>
+					<Link to={link2}>
+						<button className="btn btn-sm btn-primary rounded px-4 mx-4">
+							New
+						</button>
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
@@ -28,7 +30,7 @@ function Card({ bg, title, count, link1, link2 }) {
 
 export default function Report() {
 	const [vehicles, setVehicles] = useState(0);
-	const [carOwners, setCarOwners] = useState(0);
+	const [vehicleOwners, setVehicleOwners] = useState(0);
 
 	useEffect(() => {
 		(async function () {
@@ -40,32 +42,32 @@ export default function Report() {
 
 			setVehicles(data.totalElements);
 
-			let { data: data1 } = await get("/api/car-owners?limit=1", {
+			let { data: data1 } = await get("/api/vehicle-owners?limit=1", {
 				headers: {
 					Authorization: `Bearer ${getToken()}`,
 				},
 			});
 
-			setCarOwners(data1.totalElements);
+			setVehicleOwners(data1.totalElements);
 		})();
 	}, []);
 
 	return (
 		<div>
-			<div className="row row-cols-3">
-				<Card
+			<div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 px-0 mx-0">
+				<Vehicled
 					bg={"bg-warning"}
 					title="Vehicles"
 					count={vehicles}
 					link1="/dashboard"
 					link2="/new-vehicle"
 				/>
-				<Card
+				<Vehicled
 					bg={"bg-danger text-white"}
-					title="Car owners"
-					count={carOwners}
-					link1="/car-owners"
-					link2="/new-car-owner"
+					title="Vehicle owners"
+					count={vehicleOwners}
+					link1="/vehicle-owners"
+					link2="/new-vehicle-owner"
 				/>
 			</div>
 		</div>

@@ -12,4 +12,6 @@ public interface IVehicleService {
     Vehicle create(NewVehicleDTO dto);
 
     Vehicle link(Long id, Long ownerId);
+
+    Vehicle findById(Long id);
 }

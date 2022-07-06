@@ -42,7 +42,7 @@ export function NewVehicle() {
 
 			NotificationManager.success("Created a Vehicle", "Success");
 
-			// navigate("/");
+			navigate("/dashboard");
 		} catch (error) {
 			NotificationManager.error(
 				error.response.data.message,

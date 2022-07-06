@@ -34,5 +34,5 @@ public class Vehicle {
     private LocalDateTime registeredDate = LocalDateTime.now();
 
     @ManyToOne
-    private CarOwner owner;
+    private VehicleOwner owner;
 }

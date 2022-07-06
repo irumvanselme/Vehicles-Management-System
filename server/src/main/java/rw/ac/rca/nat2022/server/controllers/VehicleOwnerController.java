@@ -13,24 +13,24 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/vehicle-owners")
-public class CarOwnerController {
+public class VehicleOwnerController {
 
-    private final IVehicleOwnerService carOwnerService;
+    private final IVehicleOwnerService vehicleOwnerService;
 
     @Autowired
-    public CarOwnerController(IVehicleOwnerService carOwnerService) {
-        this.carOwnerService = carOwnerService;
+    public VehicleOwnerController(IVehicleOwnerService vehicleOwnerService) {
+        this.vehicleOwnerService = vehicleOwnerService;
     }
 
     @PostMapping
     private ResponseEntity<?> save(@Valid @RequestBody VehicleOwner vehicleOwner){
-        return ResponseEntity.accepted().body(carOwnerService.save(vehicleOwner));
+        return ResponseEntity.accepted().body(vehicleOwnerService.save(vehicleOwner));
     }
 
     @GetMapping
     private ResponseEntity<?> all(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "5") int limit){
         Pageable pageable = PageRequest.of(page, limit,  Sort.Direction.DESC, "id");
 
-        return ResponseEntity.ok(carOwnerService.all(pageable));
+        return ResponseEntity.ok(vehicleOwnerService.all(pageable));
     }
 }

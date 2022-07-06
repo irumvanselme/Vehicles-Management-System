@@ -5,32 +5,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rw.ac.rca.nat2022.server.models.VehicleOwner;
-import rw.ac.rca.nat2022.server.repositories.ICarOwnerRepository;
-import rw.ac.rca.nat2022.server.services.ICarOwnerService;
+import rw.ac.rca.nat2022.server.repositories.IVehicleOwnerRepository;
+import rw.ac.rca.nat2022.server.services.IVehicleOwnerService;
 
 @Service
-public class CarOwnerServiceImpl implements ICarOwnerService {
+public class VehicleOwenerServiceImpl implements IVehicleOwnerService {
 
-    private final ICarOwnerRepository carOwnerRepository;
+    private final IVehicleOwnerRepository repository;
 
     @Autowired
-    public CarOwnerServiceImpl(ICarOwnerRepository carOwnerRepository) {
-        this.carOwnerRepository = carOwnerRepository;
+    public VehicleOwenerServiceImpl(IVehicleOwnerRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public VehicleOwner save(VehicleOwner vehicleOwner) {
-        return carOwnerRepository.save(vehicleOwner);
+        return repository.save(vehicleOwner);
     }
 
     @Override
     public Page<VehicleOwner> all(Pageable pageable) {
-        return carOwnerRepository.findAll(pageable);
+        return repository.findAll(pageable);
     }
 
     @Override
     public VehicleOwner findById(Long ownerId) {
-        return carOwnerRepository.findById(ownerId)
-                .orElseThrow(() -> new RuntimeException("Car owner with this id not found"));
+        return repository.findById(ownerId)
+                .orElseThrow(() -> new RuntimeException("Vehicle owner with this id not found"));
     }
 }

@@ -29,7 +29,7 @@ export function NewCarOwner() {
 
 			setErrors({});
 
-			await post("/api/car-owners", data, {
+			await post("/api/vehicle-owners", data, {
 				headers: {
 					Authorization: `Bearer ${getToken()}`,
 				},
@@ -37,7 +37,7 @@ export function NewCarOwner() {
 
 			NotificationManager.success("Created a Car Owner", "Success");
 
-			navigate("/");
+			navigate("/vehicle-owners");
 		} catch (error) {}
 	}
 
