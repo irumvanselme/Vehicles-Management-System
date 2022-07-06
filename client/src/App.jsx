@@ -11,6 +11,7 @@ import AuthLayout from "./layouts/auth-layout";
 import { Dashboard } from "./pages/app/dashboard";
 import { NewVehicle } from "./pages/app/new-vehicle";
 import { NewCarOwner } from "./pages/app/new-car-owner";
+import { Assign } from "./pages/app/assign";
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 				<Route path="/dashboard" element={<Dashboard />} />
 				<Route path="/new-vehicle" element={<NewVehicle />} />
 				<Route path="/new-car-owner" element={<NewCarOwner />} />
+				<Route path="/assign/:vehicle" element={<Assign />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</AuthLayout>

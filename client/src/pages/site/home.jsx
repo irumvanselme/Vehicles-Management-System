@@ -21,7 +21,7 @@ export default function Home() {
 			<div className="container mt-5">
 				<h1>Welcome to vehicle tracking management system for RRA</h1>
 
-				{!(getToken().length >= 10) && (
+				{!(getToken().length >= 10) ? (
 					<div className="d-flex mt-5">
 						<div className="mr-1 px-2">
 							<Link className="btn btn-primary" to="/auth/login">
@@ -36,6 +36,15 @@ export default function Home() {
 								Register
 							</Link>
 						</div>
+					</div>
+				) : (
+					<div className="px-2 mt-5">
+						<Link
+							className="btn btn-outline-primary"
+							to="/dashboard"
+						>
+							Dashboard
+						</Link>
 					</div>
 				)}
 			</div>
