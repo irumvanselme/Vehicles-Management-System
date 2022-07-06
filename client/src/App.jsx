@@ -8,6 +8,9 @@ import NotFound from "./pages/site/not-found";
 import "bootstrap/dist/js/bootstrap";
 
 import AuthLayout from "./layouts/auth-layout";
+import { Dashboard } from "./pages/app/dashboard";
+import { NewVehicle } from "./pages/app/new-vehicle";
+import { NewCarOwner } from "./pages/app/new-car-owner";
 
 function App() {
 	return (
@@ -17,6 +20,9 @@ function App() {
 				<Route path="/auth/login" element={<Login />} />
 				<Route path="/auth/register" element={<Register />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="/dashboard" element={<Dashboard />} />
+				<Route path="/new-vehicle" element={<NewVehicle />} />
+				<Route path="/new-car-owner" element={<NewCarOwner />} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</AuthLayout>

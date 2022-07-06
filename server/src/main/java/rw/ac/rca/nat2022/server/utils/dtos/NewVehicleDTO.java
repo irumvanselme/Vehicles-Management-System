@@ -3,7 +3,6 @@ package rw.ac.rca.nat2022.server.utils.dtos;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import rw.ac.rca.nat2022.server.models.Vehicle;
 
 import javax.validation.constraints.NotEmpty;
 

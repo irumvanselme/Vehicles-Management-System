@@ -12,7 +12,7 @@ import rw.ac.rca.nat2022.server.services.ICarOwnerService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/cat-owners")
+@RequestMapping("/api/car-owners")
 public class CarOwnerController {
 
     private final ICarOwnerService carOwnerService;

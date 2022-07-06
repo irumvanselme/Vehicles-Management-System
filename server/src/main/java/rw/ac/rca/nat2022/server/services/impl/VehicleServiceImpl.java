@@ -34,19 +34,28 @@ public class VehicleServiceImpl implements IVehicleService {
 
     @Override
     public Vehicle create(NewVehicleDTO dto) {
-        if (!dto.getIsNew() && dto.getPlateNumber().length() == 0) {
+        if (!dto.getIsNew() && (dto.getPlateNumber() == null || dto.getPlateNumber().isEmpty())) {
             throw new RuntimeException("Plate number is required since the car is not new");
         }
 
-        if (dto.getPlateNumber().length() > 0) {
+        if (!(dto.getPlateNumber() == null || dto.getPlateNumber().isEmpty())) {
             if (vehicleRepository.existsByPlateNumber(dto.getPlateNumber())) {
                 throw new RuntimeException("Car with this plate number is already registered");
             }
+        }else{
+            dto.setPlateNumber(generatePlateNumber());
         }
 
-        dto.setPlateNumber(generatePlateNumber());
 
-        Vehicle vehicle = (new ModelMapper()).map(dto, Vehicle.class);
+        Vehicle vehicle = new Vehicle();
+
+        vehicle.setPlateNumber(dto.getPlateNumber());
+        vehicle.setChassisNumber(dto.getChassisNumber());
+        vehicle.setPlateNumber(dto.getPlateNumber());
+        vehicle.setPrice(dto.getPrice());
+        vehicle.setManufuctureCompany(dto.getManufuctureCompany());
+        vehicle.setManufucturedYear(dto.getManufucturedYear());
+        vehicle.setModelName(dto.getModelName());
 
         return vehicleRepository.save(vehicle);
     }

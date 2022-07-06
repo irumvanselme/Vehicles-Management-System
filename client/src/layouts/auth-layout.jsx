@@ -45,7 +45,7 @@ export default function AuthLayout({ children }) {
 						{isLoggedIn ? (
 							<>
 								<div className="pr-5 bg-red-500">
-									<Link to={"/new-article"}>
+									<Link to={"/new-vehicle"}>
 										<button className="btn btn-primary">
 											New vehicle
 										</button>
